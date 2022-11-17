@@ -35,7 +35,7 @@ jobs:
 
       - save_cache:
           paths:
-            - ~/.gradle
+            - ~/.m2
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests! and gen code coverage
@@ -53,3 +53,7 @@ jobs:
 
       - store_artifacts:
           path: ~/junit
+
+      - run:
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
