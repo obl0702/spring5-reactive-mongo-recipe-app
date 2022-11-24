@@ -3,12 +3,14 @@ package guru.springframework.services;
 import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 /**
  * Created by jt on 6/28/17.
  */
+@Slf4j
 @Service
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
@@ -22,7 +24,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
     @Override
     public Flux<UnitOfMeasureCommand> listAllUoms() {
-
+        log.info("deleteById start");
        return unitOfMeasureReactiveRepository
                 .findAll()
                 .map(unitOfMeasureToUnitOfMeasureCommand::convert);

@@ -37,7 +37,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Mono<IngredientCommand> findByRecipeIdAndIngredientId(String recipeId, String ingredientId) {
-
+        log.info("findByRecipeIdAndIngredientId start");
         return recipeReactiveRepository.findById(recipeId)
                 .flatMapIterable(Recipe::getIngredients)
                 .filter(ingredient -> ingredient.getId().equalsIgnoreCase(ingredientId))
@@ -89,6 +89,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Mono<IngredientCommand> saveIngredientCommand(IngredientCommand command) {
+        log.info("saveIngredientCommand start");
         Recipe recipe = recipeReactiveRepository.findById(command.getRecipeId()).block();
 
         if (recipe == null) {
@@ -151,7 +152,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Mono<Void> deleteById(String recipeId, String idToDelete) {
-
+        log.info("deleteById start");
         log.debug("Deleting ingredient: " + recipeId + ":" + idToDelete);
 
         Recipe recipe = recipeReactiveRepository.findById(recipeId).block();

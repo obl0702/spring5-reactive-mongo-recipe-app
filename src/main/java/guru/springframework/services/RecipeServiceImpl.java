@@ -29,6 +29,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Flux<Recipe> getRecipes() {
+        log.info("getRecipes start");
         log.debug("I'm in the service");
 
         return recipeReactiveRepository.findAll();
@@ -36,13 +37,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Mono<Recipe> findById(String id) {
-
+        log.info("findById start");
         return recipeReactiveRepository.findById(id);
     }
 
     @Override
     public Mono<RecipeCommand> findCommandById(String id) {
-
+        log.info("findCommandById start");
         return recipeReactiveRepository.findById(id)
                 .map(recipe -> {
                     RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
@@ -55,12 +56,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Mono<RecipeCommand> saveRecipeCommand(RecipeCommand command) {
+        log.info("saveRecipeCommand start");
         return recipeReactiveRepository.save(recipeCommandToRecipe.convert(command))
                 .map(recipeToRecipeCommand::convert);
     }
 
     @Override
     public Mono<Void> deleteById(String idToDelete) {
+        log.info("deleteById start");
         recipeReactiveRepository.deleteById(idToDelete).block();
         return Mono.empty();
     }

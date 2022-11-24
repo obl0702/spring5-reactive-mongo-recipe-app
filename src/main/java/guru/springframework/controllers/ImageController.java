@@ -3,6 +3,7 @@ package guru.springframework.controllers;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.services.ImageService;
 import guru.springframework.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 /**
  * Created by jt on 7/3/17.
  */
+@Slf4j
 @Controller
 public class ImageController {
 
@@ -34,13 +36,13 @@ public class ImageController {
     @GetMapping("recipe/{id}/image")
     public String showUploadForm(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findCommandById(id).block());
-
+        log.info("showUploadForm start");
         return "recipe/imageuploadform";
     }
 
     @PostMapping("recipe/{id}/image")
     public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
-
+        log.info("handleImagePost start");
         imageService.saveImageFile(id, file).block();
 
         return "redirect:/recipe/" + id + "/show";
@@ -48,6 +50,7 @@ public class ImageController {
 
     @GetMapping("recipe/{id}/recipeimage")
     public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
+        log.info("renderImageFromDB start");
         RecipeCommand recipeCommand = recipeService.findCommandById(id).block();
 
         if (recipeCommand.getImage() != null) {

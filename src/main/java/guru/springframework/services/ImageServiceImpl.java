@@ -25,7 +25,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Mono<Void> saveImageFile(String recipeId, MultipartFile file) {
-
+        log.info("saveImageFile start");
         Mono<Recipe> recipeMono = recipeReactiveRepository.findById(recipeId)
                 .map(recipe -> {
                     Byte[] byteObjects = new Byte[0];
