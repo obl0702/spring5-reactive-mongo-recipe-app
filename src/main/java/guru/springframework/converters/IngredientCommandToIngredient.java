@@ -3,7 +3,6 @@ package guru.springframework.converters;
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by jt on 6/21/17.
  */
-@Slf4j
 @Component
 public class IngredientCommandToIngredient implements Converter<IngredientCommand, Ingredient> {
 
