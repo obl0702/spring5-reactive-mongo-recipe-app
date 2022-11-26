@@ -9,6 +9,7 @@ import guru.springframework.services.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,8 +82,21 @@ public class IngredientController {
     }
 
     @PostMapping("recipe/{recipeId}/ingredient")
-    public String saveOrUpdate(@ModelAttribute IngredientCommand command){
+    public String saveOrUpdate(@ModelAttribute("ingredient") IngredientCommand command, BindingResult bindingResult,
+                               Model model){
         log.info("saveOrUpdate start");
+        log.info("bindingResult: " + bindingResult.getAllErrors().toString());
+
+        if(bindingResult.hasErrors()){
+
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+
+            model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+            return "recipe/ingredient/ingredientform";
+        }
+
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command).toProcessor().block();
 
         log.debug("saved ingredient id:" + savedCommand.getId());
