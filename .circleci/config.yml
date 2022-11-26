@@ -24,6 +24,9 @@ jobs:
     steps:
       - checkout
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       # Download and cache dependencies
       - restore_cache:
           keys:
